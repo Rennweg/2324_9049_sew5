@@ -283,9 +283,6 @@ def main():
     except FileNotFoundError:
         logger.error("File not found")
 
-
-    """TODO: File nicht zu alt + max 10000 zeichen"""
-
 if __name__ == "__main__":
     main()
 
