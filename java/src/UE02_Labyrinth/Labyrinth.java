@@ -69,8 +69,8 @@ public class Labyrinth {
 		for (int i = 0; i < map.length; i++) {
 			String st = map[i];
 			char[] s = st.toCharArray();
-			for (int j = 0; i < s.length; i++) {
-				res[i][j] = s[i];
+			for (int j = 0; j < s.length; j++) {
+				res[i][j] = s[j];
 			}
 
 		}
@@ -84,7 +84,12 @@ public class Labyrinth {
 	 * @param lab
 	 */
 	public static void printLabyrinth(char[][] lab) {
-		// TODO Code fehlt noch
+		for (int i = 0; i < lab.length; i++) {
+			for (int j = 0; j < lab[0].length; j++) {
+				System.out.print(lab[i][j]);
+			}
+			System.out.println();
+		}
 	}
 
 	/**
@@ -103,7 +108,7 @@ public class Labyrinth {
 	public static void main(String[] args) throws InterruptedException {
 		char[][] labyrinth = fromStrings(maps[2]);
 		printLabyrinth(labyrinth);
-		System.out.println("Ausgang gefunden: " + (suchen(5, 5, labyrinth) ? "ja" : "nein"));
+		//System.out.println("Ausgang gefunden: " + (suchen(5, 5, labyrinth) ? "ja" : "nein"));
 		// TODO: System.out.println("Anzahl Wege: " + suchenAlle(5, 5, labyrinth));
 	}
 }
