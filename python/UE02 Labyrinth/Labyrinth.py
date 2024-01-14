@@ -1,4 +1,21 @@
 import argparse
+from copy import copy
+
+paths = []
+def suchen(zeile, spalte, lab, visited, path = []):
+    count = 0
+    if visited[zeile][spalte] or lab[zeile][spalte] == '#':
+        return 0
+    if lab[zeile][spalte] == 'A':
+        paths.append(copy(path))
+        return 1
+    path.append((zeile, spalte))
+    visited[zeile][spalte] = True
+    count = (suchen(zeile + 1, spalte, lab, visited, path) + suchen(zeile - 1, spalte, lab, visited, path)
+             + suchen(zeile, spalte + 1, lab, visited, path) + suchen(zeile, spalte - 1, lab, visited, path))
+    visited[zeile][spalte] = False
+    path = path[:-1]
+    return count
 
 parser = argparse.ArgumentParser(description='calculate number of ways through a labyrinth', add_help=True)
 
@@ -27,5 +44,10 @@ d = args.delay
 
 
 lab = open(input_file).read().strip().split('\n')
+
+# 2D bool list als visited
+vis = [[False for _ in range(len(lab))] for _ in range(len(lab[0]))]
+
+
 
 
