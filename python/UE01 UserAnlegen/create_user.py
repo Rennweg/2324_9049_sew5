@@ -269,12 +269,12 @@ def main():
     global verbose, quiet
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", type=str, help="filename")
-    parser.add_argument("-v", "--verbose", action="store_true", help="activates verbose mode")
-    parser.add_argument("-q", "--quiet", action="store_true", help="activates quite mode")
+    loglevel = parser.add_mutually_exclusive_group()
+    loglevel.add_argument("-v", "--verbose", action="store_true", help="activates verbose mode")
+    loglevel.add_argument("-q", "--quiet", action="store_true", help="activates quite mode")
     args = parser.parse_args()
     print(args.filename)
     path = args.filename
-    """TODO: -v und -q muital exclus"""
     verbose = args.verbose
     quiet = args.quiet
     configure_logging()
