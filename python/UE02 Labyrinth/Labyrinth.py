@@ -25,7 +25,12 @@ def printLab(lab):
             print(j, end='')
         print()
 
-
+def printPaths(paths, lab):
+    for path in paths:
+        l = copy(lab)
+        for i in path:
+            l[i[0]][i[1]] = 'X'
+        printLab(l)
 
 parser = argparse.ArgumentParser(description='calculate number of ways through a labyrinth', add_help=True)
 
