@@ -1,8 +1,14 @@
-
+package UE02_Labyrinth;
 //TODO: Mein Name in der Javadoc
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Labyrinth {
 	public static String[][] maps = {{
@@ -70,14 +76,8 @@ public class Labyrinth {
 	public static char[][] fromStrings(String[] map) {
         char[][] res = new char[map.length][map[0].length()];
 		for (int i = 0; i < map.length; i++) {
-			String st = map[i];
-			char[] s = st.toCharArray();
-			for (int j = 0; j < s.length; j++) {
-				res[i][j] = s[j];
-			}
-
+			res[i] = map[i].toCharArray();
 		}
-
 		return res;
 	}
 
@@ -132,19 +132,47 @@ public class Labyrinth {
 			return 0;
 		}
 
-		count += suchenAlle(zeile, spalte+1, lab, visited, count);
-		count += suchenAlle(zeile, spalte-1, lab, visited, count);
-		count += suchenAlle(zeile+1, spalte, lab, visited, count);
-		count += suchenAlle(zeile-1, spalte, lab, visited, count);
+		count = suchenAlle(zeile, spalte+1, lab, visited, count) + suchenAlle(zeile, spalte-1, lab, visited, count) + suchenAlle(zeile+1, spalte, lab, visited, count) + suchenAlle(zeile-1, spalte, lab, visited, count);
+
+		visited.remove(Integer.toString(zeile)+ "_"+Integer.toString(spalte));
 
 		return count;
 	}
 
-	public static void main(String[] args) throws InterruptedException {
+	public static char[][] readLabyrinthFromFile(String path) throws IOException {
+		ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(Path.of(path));
+
+
+		return fromStrings(lines.toArray(String[]::new));
+	}
+
+	public static void main(String[] args) throws InterruptedException, IOException {
 		char[][] labyrinth = fromStrings(maps[0]);
 		printLabyrinth(labyrinth);
 		System.out.println("Ausgang gefunden: " + (suchen(5, 5, labyrinth) ? "ja" : "nein"));
 		Set visited = new HashSet();
 		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, labyrinth, visited, 0));
+
+		char [][] l1 = readLabyrinthFromFile("src/UE02_Labyrinth/l1.txt");
+		printLabyrinth(l1);
+		Set v1 = new HashSet();
+		System.out.println("Ausgang gefunden: " + (suchen(5, 5, l1.clone()) ? "ja" : "nein"));
+		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, l1.clone(), v1, 0));
+
+		char [][] l2= readLabyrinthFromFile("src/UE02_Labyrinth/l2.txt");
+		printLabyrinth(l2);
+		Set v2 = new HashSet();
+		System.out.println("Ausgang gefunden: " + (suchen(5, 5, l2.clone()) ? "ja" : "nein"));
+		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, l2.clone(), v2, 0));
+
+		char [][] l3= readLabyrinthFromFile("src/UE02_Labyrinth/l3.txt");
+		char [][] l31= readLabyrinthFromFile("src/UE02_Labyrinth/l3.txt");
+		printLabyrinth(l3);
+		Set v3 = new HashSet();
+
+		System.out.println("Ausgang gefunden: " + (suchen(5, 5, l31) ? "ja" : "nein"));
+		printLabyrinth(l31);
+		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, l3, v3, 0));
+
 	}
 }
