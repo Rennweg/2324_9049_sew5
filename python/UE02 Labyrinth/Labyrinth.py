@@ -1,5 +1,6 @@
 import argparse
 from copy import copy
+from datetime import time
 
 paths = []
 def suchen(zeile, spalte, lab, visited, path = []):
@@ -27,10 +28,15 @@ def printLab(lab):
 
 def printPaths(paths, lab):
     for path in paths:
+        print(path)
         l = copy(lab)
-        for i in path:
-            l[i[0]][i[1]] = 'X'
-        printLab(l)
+        modL = []
+        for i in l:
+            modL.append(list(i))
+        for (x,y) in path:
+            modL[x][y]= 'X'
+
+        printLab(modL)
 
 parser = argparse.ArgumentParser(description='calculate number of ways through a labyrinth', add_help=True)
 
@@ -57,6 +63,8 @@ p = args.print
 t = args.time
 d = args.delay
 
+start_time, end_time = 0, 0
+
 
 lab = open(input_file).read().strip().split('\n')
 
@@ -64,7 +72,17 @@ lab = open(input_file).read().strip().split('\n')
 vis = [[False for _ in range(len(lab))] for _ in range(len(lab[0]))]
 
 
+if t:
+    start_time = time.time()
 
+print(f'Anzahl Wege: {suchen(x, y, lab, vis)}')
+
+if p:
+    printPaths(paths ,lab)
+
+if t:
+    end_time = time.time()
+    print(f'Time: {round((end_time - start_time) * 1000, 2)}ms')
 
 
 
