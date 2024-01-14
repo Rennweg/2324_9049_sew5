@@ -137,19 +137,22 @@ def escape_quote(s: str) -> str:
     """
     return s.replace('"', '\\"').replace("'", "\\'").replace("`", "\\`")
 
-def generate_password(class_name: str, room: str, kv: str) -> str:
+def generate_password(class_name: str, room: str, kv: str, passwordList:set) -> str:
     """
     erzeugt ein password
     :param class_name:
     :param room:
     :param kv:
+    :param passwordList:
     :return:
     """
     logger.info("Generating password")
     chars = "1%&(),._-=^#"
-    random_chars = [random.choice(chars) for _ in range(3)]
-    """TODO: Unique"""
-    password = f"{class_name}{random_chars[0]}{room}{random_chars[1]}{kv}{random_chars[2]}"
+    while True:
+        random_chars = [random.choice(chars) for _ in range(3)]
+        password = f"{class_name}{random_chars[0]}{room}{random_chars[1]}{kv}{random_chars[2]}"
+        if password not in passwordList:
+            break
     return password
 
 def add_credentials(sheet: openpyxl.worksheet.worksheet.Worksheet, name: str, row: int, pwd: str) -> None:
@@ -222,11 +225,12 @@ def create_files(path: str) -> None:
         add_credentials(sheet, "lehrer", 2, "lehrer")
         create_user_by_name("seminar", create_user_file, delete_user_file)
         add_credentials(sheet, "seminar", 3, "seminar")
-
+        verwendetePWDs = set()
         for i in read_file(path):
             if i[0] == None:
                 continue
-            pwd = generate_password(str(i[0]).lower(), str(i[1]).lower(), str(i[2]).lower())
+            pwd = generate_password(str(i[0]).lower(), str(i[1]).lower(), str(i[2]).lower(), verwendetePWDs)
+            verwendetePWDs.add(pwd)
             create_user(i, create_user_file, pwd)
             delete_user(i, delete_user_file)
             add_credentials(sheet, i[0], row, pwd)

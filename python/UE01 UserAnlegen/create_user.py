@@ -187,14 +187,17 @@ def escape_quote(s: str) -> str:
     """
     return s.replace('"', '\\"').replace("'", "\\'").replace("`", "\\`")
 
-def generate_password(length: int) -> str:
+def generate_password(length: int, passwordList: set) -> str:
     """
     erzeugt ein password
     :param length:
     :return:
     """
     characters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(characters) for i in range(length))
+    while True:
+        password = ''.join(random.choice(characters) for i in range(length))
+        if password not in passwordList:
+            break
     return password
 
 def add_credentials(sheet, row: int, pwd: str, user_name: str) -> None:
@@ -234,13 +237,14 @@ def create_files(path: str) -> None:
         print("set -e", file=create_user_file)
         print("set -e", file=delete_user_file)
         print("mkdir /home", file=create_user_file)
-
+        verwendetePWSs = set()
         for i in read_file(path):
             first_name = check_name(str(i[0]).lower())
             last_name = generate_unique_name(check_name(str(i[1]).lower()))
             group = str(i[2]).lower()
             class_name = str(i[3])
-            pwd = generate_password(12)
+            pwd = generate_password(12, verwendetePWSs)
+            verwendetePWSs.add(pwd)
             create_user(create_user_file, pwd, first_name, last_name, group, class_name)
             delete_user(delete_user_file, first_name, last_name)
             add_credentials(sheet, row, pwd, last_name)
