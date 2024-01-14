@@ -1,6 +1,9 @@
 
 //TODO: Mein Name in der Javadoc
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Labyrinth {
 	public static String[][] maps = {{
 		"############",
@@ -117,10 +120,31 @@ public class Labyrinth {
 		return false;
 	}
 
+	public static int suchenAlle(int zeile, int spalte, char[][] lab, Set visited, int count) throws InterruptedException {
+		if (lab[zeile][spalte] == 'A'){
+			return 1;
+		} else if (lab[zeile][spalte]=='#') {
+			return 0;
+		}
+		int len = visited.size();
+		visited.add(Integer.toString(zeile)+ "_"+Integer.toString(spalte));
+		if (len == visited.size()) {
+			return 0;
+		}
+
+		count += suchenAlle(zeile, spalte+1, lab, visited, count);
+		count += suchenAlle(zeile, spalte-1, lab, visited, count);
+		count += suchenAlle(zeile+1, spalte, lab, visited, count);
+		count += suchenAlle(zeile-1, spalte, lab, visited, count);
+
+		return count;
+	}
+
 	public static void main(String[] args) throws InterruptedException {
-		char[][] labyrinth = fromStrings(maps[2]);
+		char[][] labyrinth = fromStrings(maps[0]);
 		printLabyrinth(labyrinth);
 		System.out.println("Ausgang gefunden: " + (suchen(5, 5, labyrinth) ? "ja" : "nein"));
-		// TODO: System.out.println("Anzahl Wege: " + suchenAlle(5, 5, labyrinth));
+		Set visited = new HashSet();
+		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, labyrinth, visited, 0));
 	}
 }
