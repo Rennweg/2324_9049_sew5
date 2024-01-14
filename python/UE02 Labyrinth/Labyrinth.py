@@ -17,6 +17,16 @@ def suchen(zeile, spalte, lab, visited, path = []):
     path = path[:-1]
     return count
 
+
+
+def printLab(lab):
+    for i in lab:
+        for j in i:
+            print(j, end='')
+        print()
+
+
+
 parser = argparse.ArgumentParser(description='calculate number of ways through a labyrinth', add_help=True)
 
 # cords
