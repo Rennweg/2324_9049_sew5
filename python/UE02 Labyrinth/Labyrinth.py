@@ -25,3 +25,7 @@ p = args.print
 t = args.time
 d = args.delay
 
+
+lab = open(input_file).read().strip().split('\n')
+
+
