@@ -193,7 +193,7 @@ public class Labyrinth {
 		Set v3 = new HashSet();
 
 		System.out.println("Ausgang gefunden: " + (suchen(5, 5, l31) ? "ja" : "nein"));
-		System.out.println("Ausgang gefunden: " + (suchenbfs(5, 5, l3) ? "ja" : "nein"));
+		System.out.println("Ausgang gefunden mit bfs: " + (suchenbfs(5, 5, l3) ? "ja" : "nein"));
 		printLabyrinth(l31);
 		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, l3, v3, 0));
 
