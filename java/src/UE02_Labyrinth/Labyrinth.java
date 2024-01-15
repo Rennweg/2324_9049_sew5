@@ -117,6 +117,13 @@ public class Labyrinth {
 		return false;
 	}
 
+	/**
+	 * Suche ob ein Ausgang verfügbar ist mit bfs
+	 * @param zeile
+	 * @param spalte
+	 * @param lab
+	 * @return
+	 */
 	public static boolean suchenbfs(int zeile, int spalte, char [][] lab){
 		record pair (int r, int c) {}
 
@@ -142,6 +149,16 @@ public class Labyrinth {
 		return false;
 	}
 
+	/**
+	 * Zählt wie viele Lösungswege es gibt
+	 * @param zeile
+	 * @param spalte
+	 * @param lab
+	 * @param visited
+	 * @param count
+	 * @return
+	 * @throws InterruptedException
+	 */
 	public static int suchenAlle(int zeile, int spalte, char[][] lab, Set visited, int count) throws InterruptedException {
 		if (lab[zeile][spalte] == 'A'){
 			return 1;
@@ -161,6 +178,12 @@ public class Labyrinth {
 		return count;
 	}
 
+	/**
+	 * liest ein Labyrinth von einem File ein
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
 	public static char[][] readLabyrinthFromFile(String path) throws IOException {
 		ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(Path.of(path));
 
