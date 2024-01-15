@@ -34,7 +34,7 @@ def printPaths(paths, lab):
         for i in l:
             modL.append(list(i))
         for (x,y) in path:
-            modL[x][y]= 'X'
+            modL[x][y] = 'X'
 
         printLab(modL)
 

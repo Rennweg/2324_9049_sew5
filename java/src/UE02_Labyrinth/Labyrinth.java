@@ -4,10 +4,7 @@ package UE02_Labyrinth;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Labyrinth {
@@ -120,6 +117,31 @@ public class Labyrinth {
 		return false;
 	}
 
+	public static boolean suchenbfs(int zeile, int spalte, char [][] lab){
+		record pair (int r, int c) {}
+
+		boolean [][] vis = new boolean[lab.length][lab[0].length];
+		Deque<pair> q = new ArrayDeque<>();
+		q.add(new pair(zeile, spalte));
+
+		while(!q.isEmpty()){
+			pair p = q.pollFirst();
+			if (vis[p.r][p.c] || lab[p.r][p.c] == '#'){
+				continue;
+			}
+			if (lab[p.r][p.c] == 'A'){
+				return true;
+			}
+			vis[p.r][p.c] = true;
+			q.add(new pair(p.r, p.c +1));
+			q.add(new pair(p.r, p.c -1));
+			q.add(new pair(p.r +1, p.c));
+			q.add(new pair(p.r -1, p.c));
+		}
+
+		return false;
+	}
+
 	public static int suchenAlle(int zeile, int spalte, char[][] lab, Set visited, int count) throws InterruptedException {
 		if (lab[zeile][spalte] == 'A'){
 			return 1;
@@ -171,6 +193,7 @@ public class Labyrinth {
 		Set v3 = new HashSet();
 
 		System.out.println("Ausgang gefunden: " + (suchen(5, 5, l31) ? "ja" : "nein"));
+		System.out.println("Ausgang gefunden: " + (suchenbfs(5, 5, l3) ? "ja" : "nein"));
 		printLabyrinth(l31);
 		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, l3, v3, 0));
 
