@@ -2,6 +2,7 @@
 @Author: Luca Sautter
 '''
 import argparse
+import cProfile
 import random
 import sys
 import unicodedata
@@ -255,6 +256,8 @@ def configure_logging():
     else:
         logger.setLevel(logging.INFO)
 
+
+
 def main():
     global verbose, quiet
     parser = argparse.ArgumentParser()
@@ -272,6 +275,7 @@ def main():
         create_files(path)
     except FileNotFoundError:
         logger.error("File not found")
+
 
 
 

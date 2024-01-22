@@ -1,4 +1,5 @@
 import argparse
+import cProfile
 from copy import copy
 from datetime import time
 
@@ -37,6 +38,8 @@ def printPaths(paths, lab):
             modL[x][y] = 'X'
 
         printLab(modL)
+
+
 
 parser = argparse.ArgumentParser(description='calculate number of ways through a labyrinth', add_help=True)
 
@@ -85,4 +88,12 @@ if t:
     print(f'Time: {round((end_time - start_time) * 1000, 2)}ms')
 
 
+def runC():
+    lab1 = open("l1.txt").read().strip().split('\n')
+    lab2 = open("l2.txt").read().strip().split('\n')
+    lab3 = open("l3.txt").read().strip().split('\n')
+    print(suchen(5, 5, lab1))
+    print(suchen(5, 5, lab2))
+    print(suchen(5, 5, lab3))
 
+# cProfile.run("runC()")
