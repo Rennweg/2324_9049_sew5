@@ -192,11 +192,11 @@ public class Labyrinth {
 	}
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		char[][] labyrinth = fromStrings(maps[0]);
+		char[][] labyrinth = fromStrings(maps[2]);
 		printLabyrinth(labyrinth);
-		System.out.println("Ausgang gefunden: " + (suchen(5, 5, labyrinth) ? "ja" : "nein"));
+		System.out.println("Ausgang gefunden: " + (suchen(3, 3, labyrinth) ? "ja" : "nein"));
 		Set visited = new HashSet();
-		System.out.println("Anzahl Wege: " + suchenAlle(5, 5, labyrinth, visited, 0));
+		System.out.println("Anzahl Wege: " + suchenAlle(3, 3, labyrinth, visited, 0));
 
 		char [][] l1 = readLabyrinthFromFile("src/UE02_Labyrinth/l1.txt");
 		printLabyrinth(l1);
