@@ -80,7 +80,7 @@ def main(args: argparse.Namespace) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("file", help="name des Files")
+    parser.add_argument("file", help="Pfad des Verzeichnises mit .git ordner")
     mutuagroup = parser.add_mutually_exclusive_group()
     mutuagroup.add_argument("-v", "--verbose", action="store_true", help="Log Level verbose")
     mutuagroup.add_argument("-q", "--quiet", action="store_true", help="Log Level quiet")
