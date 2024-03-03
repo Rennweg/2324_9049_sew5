@@ -7,8 +7,12 @@ from subprocess import Popen, PIPE
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def get_logger(args: argparse.Namespace) -> logging.Logger:
+    """
+    Standard Methode welche Loggin configuriert
+    :param args:
+    :return:
+    """
     logger = logging.getLogger('logger')
     if args.verbose:
         logger.setLevel(logging.DEBUG)
@@ -31,27 +35,33 @@ def get_logger(args: argparse.Namespace) -> logging.Logger:
 
 
 def main(args: argparse.Namespace) -> None:
+    """
+    Main methode welche in dem mitgegebnen verzeichnis den git befehl ausführt und daraus die Grafik erstellt.
+    :param args:
+    :return:
+    """
     logger = get_logger(args)
+    tage = ['', 'mo', 'di', 'mi', 'do', 'fr', 'sa', 'so', '']
+    time_window = 0.5 #in welchem Interval Commits gegrouped werden (in stunden)
+    numberCommits = 0 # Startcounter commit
+    minSize = 100 # Startsize von dem Punkt bei Commits in grafik
+    sizeinc = 50 # Incremet der Size des Punktes pro Commit
     try:
         git_log = ["git", "-C", args.file, "log", "--pretty=format:%ad", "--date=format-local:%a-%H-%M"]
         process = Popen(git_log, stdout=PIPE, stderr=PIPE, text=True)
-        out, err = process.communicate()
+        out, error = process.communicate()
         logger.debug("Data Retrived")
-        time_window = 0.5
-        tage = ["", "mo", "di", "mi", "do", "fr", "sa", "so", ""]
-        if err:
-            logger.error(err)
+        #Zum debugen sehr hilfreich, wenn man die genaue Fehlermeldunng von Popen hat
+        if error:
+            logger.error(error)
         dateng = Counter()
-        numberCommits = 0
-        for i in out.splitlines():
-            tmp = i.split("-")
-            dateng[(tmp[0].lower(), (np.floor((int(tmp[1]) + int(tmp[2]) / 60) / time_window) * time_window))] += 1
+        outLines = out.splitlines()
+        for line in outLines:
+            d, h, m = line.split("-")
+            dateng[(d.lower(), (np.floor((int(h) + int(m) / 60) / time_window) * time_window))] += 1
             numberCommits += 1
 
         logger.debug("Daten verarbeitet")
-
-        minSize = 100
-        sizeinc = 50
 
         data = {"x": [], "y": [], "size": []}
         for day, time in dateng:
@@ -65,10 +75,9 @@ def main(args: argparse.Namespace) -> None:
         plt.yticks(range(len(tage)), labels=tage)
         plt.xticks(range(0, 25, 4))
 
-        plt.xlabel('Time')
         plt.title(f'Luca Sautter: {numberCommits} commits')
         plt.grid(True, which="major", axis="y", linestyle="-", linewidth=2, color='black')
-        plt.xlabel('Tag')
+        plt.xlabel('Uhrzeit')
         logger.debug("Daten verarbeitet")
 
         plt.savefig("statistic.png", dpi=72)
@@ -79,6 +88,9 @@ def main(args: argparse.Namespace) -> None:
 
 
 if __name__ == "__main__":
+    """
+    Methodenaufruf der Main Methode und Args Parser
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("file", help="Pfad des Verzeichnises mit .git ordner")
     mutuagroup = parser.add_mutually_exclusive_group()

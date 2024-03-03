@@ -26,3 +26,6 @@
 [2024-03-03 19:51:55,420] DEBUG Data Retrived
 [2024-03-03 19:51:55,421] DEBUG Daten verarbeitet
 [2024-03-03 19:51:55,421] ERROR You're in trouble here!
+[2024-03-03 21:38:58,454] INFO Logging wurde aktiviert mit dem Level: 10
+[2024-03-03 21:38:58,484] DEBUG Data Retrived
+[2024-03-03 21:38:58,484] ERROR You're in trouble here!
