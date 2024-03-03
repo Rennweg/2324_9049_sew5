@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import math
 PI = math.pi
-X = [-PI+ i * (2*PI/1024) for i in range(1024 + 1)] # CNT Werte von -pi ... +pi
+X = [-PI+ i * (2*PI/1024) for i in range(1024)] # CNT Werte von -pi ... +pi
 C = [ math.cos(x) for x in X ] # CNT cosinuswerte für x von -pi ... +pi
 S = [ math.sin(x) for x in X ]
 
@@ -50,9 +50,31 @@ for label in ax.get_xticklabels() + ax.get_yticklabels():
     label.set_bbox(dict(facecolor='white', edgecolor='None', alpha=0.65 ))
 ax.set_axisbelow(True)
 
+
+
+t = -PI / 4
+plt.plot([t, t], [0, math.cos(t)], color='red', linewidth=2.5, linestyle="--")
+plt.scatter([t, ], [math.cos(t), ], 50, color='red')
+plt.annotate(r'$\sin(\minus\frac{\pi}{4})=-\frac{\sqrt{2}}{2}$',
+             xy=(t, math.sin(t)), xycoords='data',
+             xytext=(-10, -30), textcoords='offset points', fontsize=16,
+             arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.2"))
+
+plt.plot([t, t], [0, math.sin(t)], color='blue', linewidth=2.5, linestyle="--")
+plt.scatter([t, ], [math.sin(t), ], 50, color='blue')
+plt.annotate(r'$\cos(\minus\frac{\pi}{4}))=\frac{\sqrt{2}}{2}$',
+             xy=(t, math.cos(t)), xycoords='data',
+             xytext=(-90, +30), textcoords='offset points', fontsize=16,
+             arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.2"))
+
+
+
 plt.plot(X, C, color="yellow", linewidth=2.5, linestyle="-", label="cosine")
 plt.plot(X, S, color="green", linewidth=2.5, linestyle="-.", label="sine")
 plt.legend(loc='upper left', frameon=False)
+plt.title("Plot von Luca Sautter, HTL3R")
+
+
 
 plt.savefig("plot1_sautter.png",dpi=72)
 plt.show()
